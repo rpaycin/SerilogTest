@@ -1,6 +1,6 @@
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Hosting;
-using Microsoft.Extensions.Logging;
 using Serilog;
 
 namespace SerilogTest
@@ -9,7 +9,9 @@ namespace SerilogTest
     {
         public static void Main(string[] args)
         {
-            //serilog ayarlarý
+            //baþlangýç : Log.Logger a set edilerek serilog ayarlarý yapýlýr. 2 türlü ayar yapýlabilir. 1 deki gibi kod dan veya 2 deki gibi appsettings den 
+
+            //1. serilog ayarlarý
             Log.Logger = new LoggerConfiguration()
                 .WriteTo.Console()//konsola kayýt yazma
                 .WriteTo.File("logs.txt")//proje dizininde logs dosyasý üretip koyar
@@ -17,7 +19,9 @@ namespace SerilogTest
                 .MinimumLevel.Error()//minimum error hatalarý yazýlcak
                 .CreateLogger();
 
-            //serilogu sql ve mongodb ye de atabiliriz
+            ////2. serilogu sql ve mongodb ye de atabiliriz. appsettings de ms sql baðlantýsý ve seq için ayarlar var, istenildiði gibi deðiþtirilebilir
+            //IConfigurationRoot configuration = new ConfigurationBuilder().AddJsonFile("appsettings.json", false, true).Build();
+            //Log.Logger = new LoggerConfiguration().ReadFrom.Configuration(configuration).CreateLogger();
 
             CreateHostBuilder(args).Build().Run();
         }
